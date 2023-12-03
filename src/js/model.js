@@ -36,7 +36,7 @@ export const loadRecipe = async id => {
 
     const response = await fetch(`${API_URL}${id}?key=${KEY}`);
     const data = await response.json();
-    console.log(data);
+    console.log('API Response', data);
     state.recipe = createRecipeObject(data);
     if (state.bookmarks.some(bookmark => bookmark.id === id)) {
       state.recipe.bookmarked = true;
@@ -54,10 +54,14 @@ export const loadRecipe = async id => {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
-    const response = await fetch(`${API_URL}?search=${query}&key=${KEY}`);
-    const data = await response.json();
-    console.log(`This is the ${data}🔥`);
-    state.search.results = data.recipes.map(rec => {
+    // Replaced fetch with AJAX
+    // const response = await fetch(`${API_URL}?search=${query}&key=${KEY}`);
+    // const data = await response.json();
+    
+    const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
+    console.log(data);
+    console.log('API response', data);
+    state.search.results = data.data.recipes.map(rec => {
       return {
         id: rec.id,
         title: rec.title,
