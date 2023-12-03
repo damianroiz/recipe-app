@@ -32,9 +32,11 @@ const createRecipeObject = data => {
 
 export const loadRecipe = async id => {
   try {
+    // const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
+
     const response = await fetch(`${API_URL}${id}?key=${KEY}`);
     const data = await response.json();
-    // console.log(data);
+    console.log(data);
     state.recipe = createRecipeObject(data);
     if (state.bookmarks.some(bookmark => bookmark.id === id)) {
       state.recipe.bookmarked = true;
@@ -44,7 +46,7 @@ export const loadRecipe = async id => {
 
     console.log(state.recipe);
   } catch (err) {
-    console.error(`${err}`);
+    console.error(`${err} 🧨🧨🧨`);
     throw err;
   }
 };
@@ -54,7 +56,7 @@ export const loadSearchResults = async function (query) {
     state.search.query = query;
     const response = await fetch(`${API_URL}?search=${query}&key=${KEY}`);
     const data = await response.json();
-    console.log(data);
+    console.log(`This is the ${data}🔥`);
     state.search.results = data.recipes.map(rec => {
       return {
         id: rec.id,
@@ -150,7 +152,6 @@ export const uploadRecipe = async newRecipe => {
     };
 
     console.log(recipe);
-    console.log(111);
     const response = await fetch(`${API_URL}?key=${KEY}`, {
       method: 'POST',
       headers: {
@@ -158,7 +159,6 @@ export const uploadRecipe = async newRecipe => {
       },
       body: JSON.stringify(recipe),
     });
-    console.log(222);
     const data = await response.json();
     console.log(data);
     state.recipe = createRecipeObject(data);
@@ -167,5 +167,3 @@ export const uploadRecipe = async newRecipe => {
     throw err;
   }
 };
-
-
